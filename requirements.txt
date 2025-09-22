@@ -1,0 +1,16 @@
+Django>=5.0,<6.0
+pillow>=10.0.0
+pdf2image>=1.17.0
+pypdf>=4.2.0
+opencv-python-headless==4.9.0.80
+numpy==1.26.4            # for Python 3.10/3.11
+paddlepaddle==2.6.1      # Windows CPU wheel
+paddleocr==2.7.0.3       # includes ppstructure
+openai>=1.44.0
+python-dotenv>=1.0.1
+tiktoken>=0.7.0
+ftfy>=6.2.0
+langdetect>=1.0.9
+jsonschema>=4.23.0
+huggingface-hub>=0.24.0
+requests>=2.31.0

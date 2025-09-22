@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+  <div class="col-lg-8">
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <h2 class="h5">Summary</h2>
+        {% if doc.summary_json.error %}
+          <div class="alert alert-danger">{{ doc.summary_json.error }}</div>
+        {% else %}
+          <p>{{ doc.summary_json.summary|default:"(no summary)" }}</p>
+
+          <h3 class="h6 mt-4">Highlights</h3>
+          <ul>
+            {% for h in doc.summary_json.highlights %}
+              <li><b>{{ h.section }}:</b> {{ h.text }}</li>
+            {% empty %}
+              <li>None</li>
+            {% endfor %}
+          </ul>
+
+          <h3 class="h6 mt-4">Medications</h3>
+          <ul>
+            {% for m in doc.summary_json.meds %}
+              <li>{{ m.name }} {% if m.dose %}– {{ m.dose }}{% endif %} {% if m.freq %}({{ m.freq }}){% endif %}</li>
+            {% empty %}
+              <li>None</li>
+            {% endfor %}
+          </ul>
+
+          <h3 class="h6 mt-4">Follow-ups</h3>
+          <ul>
+            {% for f in doc.summary_json.followups %}
+              <li>{{ f.action }} {% if f.timeline %}– {{ f.timeline }}{% endif %}</li>
+            {% empty %}
+              <li>None</li>
+            {% endfor %}
+          </ul>
+
+          <h3 class="h6 mt-4">Source Spans</h3>
+          <ul>
+            {% for s in doc.summary_json.source_spans %}
+              <li>"{{ s.claim }}" — chunks {{ s.chunk_ids|join:", " }}</li>
+            {% empty %}
+              <li>None</li>
+            {% endfor %}
+          </ul>
+
+          <div class="mt-3 text-muted"><em>{{ doc.summary_json.disclaimer }}</em></div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">Document</h5>
+        <p class="mb-1"><b>File:</b> {{ doc.original_filename }}</p>
+        <p class="mb-1"><b>Language:</b> {{ doc.get_language_mode_display }}</p>
+        <p class="mb-1"><b>Type:</b> {{ doc.get_doc_type_display }}</p>
+        <p class="mb-3"><b>Status:</b> {{ doc.status }}</p>
+        <a href="{% url 'download_json' doc.id %}" class="btn btn-outline-primary btn-sm">Download JSON</a>
+      </div>
+    </div>
+    <div class="card shadow-sm mt-3">
+      <div class="card-body">
+        <h6 class="card-title">Raw OCR (redacted)</h6>
+        <pre style="white-space: pre-wrap;">{{ doc.ocr_text|default:"(empty)" }}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

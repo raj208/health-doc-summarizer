@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <h1 class="h4 mb-3">Upload medical document</h1>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="form-label">File</label>
+            {{ form.uploaded_file }}
+            <div class="form-text">PDF or image</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Language Mode</label><br>
+            {{ form.language_mode }}
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Document Type</label>
+            {{ form.doc_type }}
+            <div class="form-text">Choose <b>Labs</b> for table extraction</div>
+          </div>
+          <button class="btn btn-primary">Upload & Summarize</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
